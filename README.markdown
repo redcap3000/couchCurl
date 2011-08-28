@@ -19,4 +19,4 @@
         // Get Record
         couchCurl::ccurl_get('record_id');
         // Remove Record
-        couchCurl_delete('record_id');
+        couchCurl::ccurl_delete('record_id');
