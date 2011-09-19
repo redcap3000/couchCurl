@@ -15,8 +15,10 @@
         Originally designed to store output from API's as local cache.
         //Include couchCurl.php
         // Store Json
-        couchCurl::ccurl_put('json string','record_id');
+        couchCurl::_cc_put('json string','record_id');
+        // Or
+        couchCurl::_cc_put('json string');
         // Get Record
-        couchCurl::ccurl_get('record_id');
+        couchCurl::_cc_get('record_id');
         // Remove Record
-        couchCurl::ccurl_delete('record_id');
+        couchCurl::_cc_delete('record_id','rev_id');
