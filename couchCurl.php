@@ -19,8 +19,8 @@ class couchCurl{
         function _cc_delete($title,$rev){return self::__cc('DELETE',"/$title?rev=$rev'");}
 
         function __cc($method='GET',$query,$no_exe=true){
-               $query = "curl -X $method '" . COUCH_HOST."/".COUCH_DB."$query" . ' -s  -H "HTTP/1.0" '. ($method=='PUT' || $method == 'POST'? ' -H "Content-t$
-                // returns the appropriate curl call, no exe is for debugging (returns the command as a string)
+              $query = "curl -X $method '" . COUCH_HOST."/".COUCH_DB."$query" . ' -s  -H "HTTP/1.0" '. ($method=='PUT' || $method == 'POST'? ' -H "Content-type: application/json"':NULL) ;
+              // returns the appropriate curl call, no exe is for debugging (returns the command as a string)
                 $result = ($no_exe==false? exec($query):$query);
                 return ($result?$result:($no_exec==true?$query:false));
         }
