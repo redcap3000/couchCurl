@@ -13,6 +13,9 @@
         Not designed (yet) for updating records! You may want to use a different couch library..
 
         Originally designed to store output from API's as local cache.
+        
+        // If you need to use a different database for any function, designate it as the last argument in each method. (except _cc_changes)
+        
         //Include couchCurl.php
         // Store Json
         couchCurl::_cc_put('json string','record_id');
@@ -22,3 +25,9 @@
         couchCurl::_cc_get('record_id');
         // Remove Record
         couchCurl::_cc_delete('record_id','rev_id');
+        // Set Revision Limit
+        couchCurl::_cc_get_revs_limit();
+        // Get All Dbs
+        couchCurl::_cc_get_all_dbs()
+        // Changes (also supports the options, provide assoc. array to use.
+        couchCurl::_cc_changes());
