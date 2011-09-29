@@ -31,3 +31,17 @@
         couchCurl::_cc_get_all_dbs()
         // Changes (also supports the options, provide assoc. array to use.
         couchCurl::_cc_changes());
+	// makes a copy of document_id and saves it as new_document_id
+	couchCurl::_cc_copy('document_id','new_document_id');
+	// Copys a specific revision of the document to copy
+	couchCurl::_cc_copy('document_id','new_document_id','document_id_rev');
+	// Copies to an existing document
+	couchCurl::_cc_copy_to('document_id','existing_doc_id','existing_doc_latest_rev')
+	// gets all docs from the php definition COUCH_DB
+	couchCurl::_cc__all_docs()
+	// gets all docs from database named 'database'
+	couchCurl::_cc_all_docs('database')
+	// gets all docs from database 'database' with an optional associtatve array with parameters
+	couchCurl::_cc_all_docs('database',array('descending'=>'true'));
+	// gets documents doc_id_1 + doc_id_2 from the definition COUCH_DB, without options (uses POST not GET).
+	couchCurl::_cc_all_docs(NULL,NULL,array('doc_id_1','doc_id_2'));
