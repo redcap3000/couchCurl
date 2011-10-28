@@ -77,6 +77,18 @@ class couchCurl{
 		return  self::_host($query,'COPY');
 	}
 
+
+	public static function handle_couch_id($id,$base = 12,$decode = false){
+	// for compressing couch_ids (integers), can accept a single integer, or a coded string like 
+	// "10293:1023:2012:123" for working with relations
+	// base refers to the number conversion to perform, When decoding use the same syntax (except with
+	// the encoded string as the ID, and designate the final parameter as 'true'
+		foreach(explode(':',$id) as $num)
+			$r []= ($decode == true? base_convert($num,$base,10): base_convert($num, 10,$base));
+		return implode(':',$r);
+		
+	}
+
 	private static function __cc($method='GET',$query,$db=NULL,$no_exe=false){
 		$query = "curl -X $method '" . COUCH_HOST."/".self::___db($db)."$query" . ' -s  -H "HTTP/1.0" '. ($method=='PUT' || $method == 'POST'? ' -H "Content-type: application/json"':NULL) ;
 		// returns the appropriate curl call, no exe is for debugging (returns the command as a string)
