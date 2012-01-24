@@ -35,11 +35,12 @@ class couchCurl{
 	static function view($key,$view,$design_doc,$db=NULL,$server=NULL,$by_value = false){
 		$db = ($db == NULL?COUCH_DB:$db);
 		$server = ($server == NULL?COUCH_HOST:$server);
+		if(is_string($key)) $key = '"' . urlencode($key).'"';
 		$query = "curl -X GET '$server/$db/_design/$design_doc/_view/$view?".($by_value== false?'key':'value')."=$key'";
 		$json_string = self::_query($query);
 		$json_obj = json_decode($json_string,true);
-// to return an object that is a little easier to work with the id becomes the key and its value is key:-:value
-// a verbose delimiter is used to allow users to use dashes and colons in keys/values
+		// to return an object that is a little easier to work with the id becomes the key and its value is key:-:value
+		// a verbose delimiter is used to allow users to use dashes and colons in keys/values
 		if(REDUCED_EMIT)
 			foreach($json_obj['rows'] as $loc=>$emit){
 			// ommits the key and just shows id and value ...
