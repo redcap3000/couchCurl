@@ -9,13 +9,27 @@ class couchCurl{
 		// doing it here because of annoying quote bash error for the database..
 		$db = self::___db($db);
 		// checking for _id and _rev before attempting a curl..	
-		$doc = json_decode($json);
-		if($doc->_id && $doc->_rev){
-		exec("curl -X PUT -d \ '$json' '".COUCH_SHOST . "/$db/".$doc->_id  ."' -s -H HTTP/1.0 -H ".'"Content-Type: application/json"',$output);
+		$doc = json_decode($json,true);
+		
+		if($doc['_id'] && $doc['_rev']){
+			// this is shennanigans because couch / curl requires that the first two fields in passed json must be the _id and _rev, in that order
+			// otherwise you get nothing returned.
+			$json= array();	
+			$json['_id'] = $doc['_id'];
+			$json['_rev'] = $doc['_rev'];
+			
+			unset($doc['_id'],$doc['_rev']);
+			// do some other filtering too ...
+			foreach($doc as $key=>$value){
+				$json [$key]= (is_numeric($value) ? (int) $value : $value);
+			}
+			$doc['_id'] = $json['_id'];
+			
+			$json = json_encode($json);
+			exec("curl -X PUT -d \ '$json' '".COUCH_HOST . "/$db/".$doc['_id']  ."' -s -H HTTP/1.0 -H ".'"Content-Type: application/json"',$output);
 			return $output[0];
 		}else
 			return "\nMissing _id and/or _rev fields\n";
-		
 	}
 	
 	static function get($title,$range_stop=FALSE,$db=NULL){return self::__cc('GET',"/$title'",$db);}
